@@ -1,6 +1,8 @@
 TEMPLATE = app
 
-TARGET = 
+TARGET =  CQCheckGridTest
+
+QT += widgets
 
 DEPENDPATH += .
 

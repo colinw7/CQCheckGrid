@@ -1,6 +1,8 @@
 TEMPLATE = lib
 
-TARGET = 
+TARGET = CQCheckGrid
+
+QT += widgets
 
 DEPENDPATH += .
 
