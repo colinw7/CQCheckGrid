@@ -10,7 +10,7 @@
 
 CQCheckGrid::
 CQCheckGrid(QWidget *parent, int cols) :
- CQCheckCell(parent), cols_(cols), exclusive_(false), row_(0), col_(0)
+ CQGridCheckCell(parent), cols_(cols)
 {
   setObjectName("grid");
 
@@ -37,7 +37,7 @@ QAbstractButton *
 CQCheckGrid::
 addCheck(const QString &name)
 {
-  CQCheckBox *box = new CQCheckBox(this, name, exclusive());
+  auto *box = new CQGridCheckBox(this, name, exclusive());
 
   group_->addButton(box->button());
 
@@ -62,7 +62,7 @@ void
 CQCheckGrid::
 addSpacer()
 {
-  CQCheckSpacer *spacer = new CQCheckSpacer(this);
+  auto *spacer = new CQGridCheckSpacer(this);
 
   if (col_ > 0 && col_ + 1 > cols_) {
     col_ = 0;
@@ -80,7 +80,7 @@ CQCheckGrid *
 CQCheckGrid::
 createGroup(const QString &name)
 {
-  CQCheckGrid *grid = new CQCheckGrid(this);
+  auto *grid = new CQCheckGrid(this);
 
   grid->setTitle(name);
 
@@ -174,10 +174,10 @@ CQCheckGrid::
 contextMenuEvent(QContextMenuEvent *e)
 {
   if (! exclusive()) {
-    QMenu *menu = new QMenu;
+    auto *menu = new QMenu;
 
-    QAction *allAction  = menu->addAction("Select All" );
-    QAction *noneAction = menu->addAction("Select None");
+    auto *allAction  = menu->addAction("Select All" );
+    auto *noneAction = menu->addAction("Select None");
 
     allAction ->setEnabled(! isAllChecked());
     noneAction->setEnabled(isAnyChecked());
@@ -270,13 +270,13 @@ cols() const
 
 //------
 
-CQCheckBox::
-CQCheckBox(QWidget *parent, const QString &name, bool exclusive) :
- CQCheckCell(parent)
+CQGridCheckBox::
+CQGridCheckBox(QWidget *parent, const QString &name, bool exclusive) :
+ CQGridCheckCell(parent)
 {
   setObjectName(name);
 
-  QHBoxLayout *layout = new QHBoxLayout(this);
+  auto *layout = new QHBoxLayout(this);
   layout->setSpacing(0); layout->setMargin(0);
 
   if (exclusive)
@@ -290,21 +290,21 @@ CQCheckBox(QWidget *parent, const QString &name, bool exclusive) :
 }
 
 bool
-CQCheckBox::
+CQGridCheckBox::
 isAnyChecked() const
 {
   return button_->isChecked();
 }
 
 bool
-CQCheckBox::
+CQGridCheckBox::
 isAllChecked() const
 {
   return isAnyChecked();
 }
 
 void
-CQCheckBox::
+CQGridCheckBox::
 setChecked(bool checked)
 {
   button_->setChecked(checked);

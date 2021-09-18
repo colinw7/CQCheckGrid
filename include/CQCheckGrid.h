@@ -8,11 +8,11 @@ class QGridLayout;
 class QAbstractButton;
 class QButtonGroup;
 
-class CQCheckCell : public QFrame {
+class CQGridCheckCell : public QFrame {
   Q_OBJECT
 
  public:
-  CQCheckCell(QWidget *parent) :
+  CQGridCheckCell(QWidget *parent) :
    QFrame(parent) {
   }
 
@@ -27,34 +27,34 @@ class CQCheckCell : public QFrame {
   virtual int cols() const { return 1; }
 };
 
-class CQCheckBox : public CQCheckCell {
+class CQGridCheckBox : public CQGridCheckCell {
  public:
-  CQCheckBox(QWidget *parent=0, const QString &name="", bool abstract=false);
+  CQGridCheckBox(QWidget *parent=nullptr, const QString &name="", bool abstract=false);
 
   QAbstractButton *button() const { return button_; }
 
-  bool isAnyChecked() const;
-  bool isAllChecked() const;
+  bool isAnyChecked() const override;
+  bool isAllChecked() const override;
 
-  void setChecked(bool checked);
+  void setChecked(bool checked) override;
 
  private:
   QAbstractButton *button_;
 };
 
-class CQCheckSpacer : public CQCheckCell {
+class CQGridCheckSpacer : public CQGridCheckCell {
  public:
-  CQCheckSpacer(QWidget *parent=0) : CQCheckCell(parent) { }
+  CQGridCheckSpacer(QWidget *parent=nullptr) : CQGridCheckCell(parent) { }
 
-  bool isCheckable() const { return false; }
+  bool isCheckable() const override { return false; }
 
-  bool isAnyChecked() const { return false; }
-  bool isAllChecked() const { return false; }
+  bool isAnyChecked() const override { return false; }
+  bool isAllChecked() const override { return false; }
 
-  void setChecked(bool /*checked*/) { }
+  void setChecked(bool /*checked*/) override { }
 };
 
-class CQCheckGrid : public CQCheckCell {
+class CQCheckGrid : public CQGridCheckCell {
   Q_OBJECT
 
   Q_PROPERTY(QString title     READ title   WRITE setTitle  )
@@ -62,7 +62,7 @@ class CQCheckGrid : public CQCheckCell {
   Q_PROPERTY(bool    exclusive READ exclusive)
 
  public:
-  CQCheckGrid(QWidget *parent=0, int cols=5);
+  CQCheckGrid(QWidget *parent=nullptr, int cols=5);
 
   QAbstractButton *addCheck(const QString &name);
 
@@ -81,33 +81,33 @@ class CQCheckGrid : public CQCheckCell {
   bool exclusive() const { return exclusive_; }
   void setExclusive(bool value=true);
 
-  bool isAnyChecked() const;
-  bool isAllChecked() const;
+  bool isAnyChecked() const override;
+  bool isAllChecked() const override;
 
-  void setChecked(bool checked);
+  void setChecked(bool checked) override;
 
-  int rows() const;
-  int cols() const;
+  int rows() const override;
+  int cols() const override;
 
  public slots:
   void selectAll();
   void selectNone();
 
  private:
-  void paintEvent(QPaintEvent *);
+  void paintEvent(QPaintEvent *) override;
 
-  void contextMenuEvent(QContextMenuEvent *);
+  void contextMenuEvent(QContextMenuEvent *) override;
 
  private:
-  typedef std::vector<CQCheckCell *> Cells;
+  using Cells = std::vector<CQGridCheckCell *>;
 
   QString       title_;
-  QGridLayout  *layout_;
-  int           cols_;
-  bool          exclusive_;
-  QButtonGroup *group_;
-  int           row_;
-  int           col_;
+  QGridLayout  *layout_    { nullptr };
+  int           cols_      { 0 };
+  bool          exclusive_ { false };
+  QButtonGroup *group_     { nullptr };
+  int           row_       { 0 };
+  int           col_       { 0 };
   Cells         cells_;
 };
 
