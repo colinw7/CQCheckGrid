@@ -118,8 +118,8 @@ setColumns(int cols)
     delete child;
 
   for (uint i = 0; i < cells_.size(); ++i) {
-    int row = i / cols_;
-    int col = i % cols_;
+    int row = int(i) / cols_;
+    int col = int(i) % cols_;
 
     layout_->addWidget(cells_[i], row, col);
   }
@@ -145,7 +145,7 @@ CQCheckGrid::
 paintEvent(QPaintEvent *)
 {
   if (title_.length()) {
-    QColor bg = palette().background().color();
+    auto bg = palette().background().color();
 
     QPainter p(this);
 
@@ -250,9 +250,9 @@ int
 CQCheckGrid::
 rows() const
 {
-  int rows = cells_.size()/columns();
+  int rows = int(cells_.size())/columns();
 
-  if (cells_.size() % columns())
+  if (int(cells_.size()) % columns())
     ++rows;
 
   return rows;
@@ -263,7 +263,7 @@ CQCheckGrid::
 cols() const
 {
   if (int(cells_.size()) < columns())
-    return cells_.size();
+    return int(cells_.size());
   else
     return columns();
 }
