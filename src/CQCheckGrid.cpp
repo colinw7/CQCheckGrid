@@ -145,7 +145,7 @@ CQCheckGrid::
 paintEvent(QPaintEvent *)
 {
   if (title_.length()) {
-    auto bg = palette().background().color();
+    auto bg = palette().window().color();
 
     QPainter p(this);
 
@@ -163,7 +163,7 @@ paintEvent(QPaintEvent *)
 
     p.fillRect(r, QBrush(bg));
 
-    p.setPen(QColor(0,0,0));
+    p.setPen(QColor(0, 0, 0));
 
     p.drawText(8, 2 + fm.ascent(), title_);
   }
