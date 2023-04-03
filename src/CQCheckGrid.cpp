@@ -114,7 +114,7 @@ setColumns(int cols)
 
   QLayoutItem *child;
 
-  while ((child = layout_->takeAt(0)) != 0)
+  while ((child = layout_->takeAt(0)) != nullptr)
     delete child;
 
   for (uint i = 0; i < cells_.size(); ++i) {
